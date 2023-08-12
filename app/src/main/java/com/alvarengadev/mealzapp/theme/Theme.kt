@@ -1,4 +1,4 @@
-package com.alvarengadev.mealzapp.ui.theme
+package com.alvarengadev.mealzapp.theme
 
 import android.app.Activity
 import android.os.Build
