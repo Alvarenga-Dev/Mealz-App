@@ -37,7 +37,7 @@ import com.alvarengadev.mealzapp.theme.MealzAppTheme
 import com.alvarengadev.mealzapp.viewmodels.MealViewModel
 
 @Composable
-fun MealsCategoriesScreen() {
+fun MealsCategoriesScreen(navigationCallback: (String) -> Unit) {
     val viewModel = viewModel<MealViewModel>()
     val meals = viewModel.mealsState.value
 
@@ -45,21 +45,23 @@ fun MealsCategoriesScreen() {
         contentPadding = PaddingValues(16.dp)
     ) {
         items(meals) { meal ->
-            MealCategory(meal)
+            MealCategory(meal, navigationCallback)
         }
     }
 }
 
 @Composable
-fun MealCategory(meal: MealResponse) {
+fun MealCategory(meal: MealResponse, navigationCallback: (String) -> Unit) {
     var isExpanded by remember { mutableStateOf(false) } // create interaction, is a necessary use remember!!
-    var lines by remember { mutableStateOf(0) }
     Card(
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(2.dp), // use CardDefaults for create elevation in Card.
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 16.dp)
+            .clickable {
+                navigationCallback(meal.id)
+            }
     ) {
         Row (modifier = Modifier.animateContentSize()) {
             SubcomposeAsyncImage(
@@ -114,6 +116,6 @@ fun MealCategory(meal: MealResponse) {
 @Composable
 fun DefaultPreview() {
     MealzAppTheme {
-        MealsCategoriesScreen()
+        MealsCategoriesScreen({ })
     }
 }

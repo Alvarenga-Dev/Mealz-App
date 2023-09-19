@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MealViewModel (
-    private val repository: MealsRepository = MealsRepository()
+    private val repository: MealsRepository = MealsRepository.getInstance()
 ): ViewModel() {
 
     private val _mealsState = mutableStateOf(listOf<MealResponse>()) // <- requires init value
