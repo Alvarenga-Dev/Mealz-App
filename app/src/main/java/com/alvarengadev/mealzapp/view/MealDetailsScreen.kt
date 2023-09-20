@@ -1,5 +1,6 @@
 package com.alvarengadev.mealzapp.view
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +18,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.transform.CircleCropTransformation
@@ -25,6 +28,9 @@ import com.alvarengadev.mealzapp.data.resposes.MealResponse
 @Composable
 fun MealDetailsScreen(meal: MealResponse?) {
     var isExpanded by remember { mutableStateOf(false) } // create interaction, is a necessary use remember!!
+    val imageSizeDp: Dp by animateDpAsState(
+        targetValue = if (isExpanded) 200.dp else 100.dp
+    )
     Column(modifier = Modifier.padding(16.dp)) {
         Row {
             SubcomposeAsyncImage(
@@ -34,7 +40,7 @@ fun MealDetailsScreen(meal: MealResponse?) {
                 },
                 contentDescription = null,
                 modifier = Modifier
-                    .size(200.dp)
+                    .size(imageSizeDp)
             )
             Text(
                 text = meal?.name ?: "Default name",
@@ -44,8 +50,17 @@ fun MealDetailsScreen(meal: MealResponse?) {
                 textAlign = TextAlign.Center
             )
         }
-        Button(onClick = { }) {
+        Button(
+            modifier = Modifier.padding(16.dp),
+            onClick = { isExpanded = !isExpanded }
+        ) {
             Text(text = "Change state of meal profile picture")
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewMealDetailsScreen() {
+    MealDetailsScreen(meal = null)
 }
